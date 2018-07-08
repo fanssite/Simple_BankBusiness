@@ -5,4 +5,4 @@ class User(object):
         self.name = name
         self.IdCard = IdCard
         self.phone = phone
-        self.cardId = card
+        self.card = card

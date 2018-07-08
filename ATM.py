@@ -6,7 +6,7 @@ from User import User
 from Card import Card
 class ATM(object):
     def __init__(self):
-        self.user = dict()
+        self.users = dict()
     def CreateUser(self):
         username = input('请输入您的真实姓名:')
         IdCard = input('请输入您的IdCard:')
@@ -24,10 +24,22 @@ class ATM(object):
         
         card = Card(cardId,password,prestoreMoney)
         user = User(username,IdCard,phone,card)
-        self.user[cardId]=user
+        self.users[cardId]=user
         print('开通成功，请牢记卡号%s'%cardId)
     def SearchUserInfo(self):
-        pass
+        cardid = input('请输入您要查询的卡号')
+        if not cardid in self.users:
+            print('用户不存在在，请确认您的卡号')
+            return -1
+        user= self.users.get(cardid)
+        if user.card.lock:
+            print('卡已被锁定，请先解锁后再操作')
+            return -1
+        if not self.PwdCheck(user.card.cardPwd):
+            user.card.lock = True
+            print('密码输入错误，该卡被锁定')
+            return -1
+        print('账号:%s \r\n余额:%s'%(user.card.cardId,user.card.cardMoney))
     def GetMoney(self):
         pass
     def SaveMoney(self):
@@ -37,9 +49,40 @@ class ATM(object):
     def ChangePwd(self):
         pass
     def LockUser(self):
-        pass
+        cardid = input('请输入您要锁定的卡号')
+        user = self.users.get(cardid)
+        if not user:
+            print('该卡不存在，锁定失败，请确认您输入的卡号是正确的')
+            return -1
+        if user.card.lock:
+            print('该卡已被锁定，无需进行锁定操作')
+        if not self.PwdCheck(user.card.cardPwd):
+            print('密码输入错误，锁定失败')
+            return -1
+        tempIdCard = input('请输入您的身份证号码')
+        if tempIdCard!=user.IdCard:
+            print('身份验证失败，锁定失败')
+            return -1
+        else:
+            user.card.lock = True
+            print('锁定成功')
     def UnLocking(self):
-        pass
+        cardid = input('请输入您要解锁的卡号')
+        user = self.users.get(cardid)
+        if not user:
+            print('该卡不存在，解锁失败，请确认您输入的卡号是正确的')
+            return -1
+        if not user.card.lock:
+            print('该卡未被锁定，无需进行解锁操作')
+        if not self.PwdCheck(user.card.cardPwd):
+            print('密码输入错误，解锁失败')
+            return -1
+        tempIdCard = input('请输入您的身份证号码')
+        if tempIdCard!=user.IdCard:
+            print('身份验证失败，解锁失败')
+            return -1
+        user.card.lock = False
+        print('解锁成功')
     def UpCard(self):
         pass
     def CancelCard(self):
@@ -56,7 +99,7 @@ class ATM(object):
             ch = chr(random.randrange(ord('0'),ord('9')+1))
             str +=ch
         #判断是否重复
-        if not self.user.get(str):
+        if not self.users.get(str):
             return str
     def CheckprestoreMoney(self,prestoreMoney):
         if not prestoreMoney.isdigit():

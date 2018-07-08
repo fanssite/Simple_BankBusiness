@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-import  time
+import time
 class Admin(object):
     def Admin_View(self):
         print(' ','*'*40)
@@ -10,8 +10,8 @@ class Admin(object):
         print('*',' '*40,'*')
         print('*',' '*40,'*')
         print(' ','*'*40)
-        
-        
+
+
     def Admin_login_exit(self):
         admin = input('请输入管理员账号:')
         pwd =  input('请输入管理员账号密码:')
@@ -26,7 +26,7 @@ class Admin(object):
         else:
             print('账号 有误，请确认!')
             return -1
-    
+
     def Sys_Func(self):
         print(' ','*'*40)
         print('*',' '*8,'1.开户',' '*8,'2.查询',' '*8,'*')
@@ -36,4 +36,4 @@ class Admin(object):
         print('*',' '*8,'9.补卡',' '*8,'10.销户',' '*7,'*')
         print('*',' '*14,'exit退出',' '*16,'*')
         print(' ','*'*40)
-    
+

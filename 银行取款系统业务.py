@@ -42,7 +42,7 @@ def main():
             Atm.CreateUser()
         elif option == '2':
             #查询
-            pass
+            Atm.SearchUserInfo()
         elif option == '3':
             #存款
             pass
@@ -57,10 +57,10 @@ def main():
             pass
         elif option == '7':
             #锁定
-            pass
+            Atm.LockUser()
         elif option == '8':
             #解锁
-            pass
+            Atm.UnLocking()
         elif option == '9':
             #补卡
             pass
@@ -72,5 +72,4 @@ def main():
             if not view.Admin_login_exit():
                 return -1       
 if __name__=='__main__':
-    allusers = OrderedDict()
     main()
